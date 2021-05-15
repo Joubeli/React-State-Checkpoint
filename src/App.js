@@ -16,18 +16,32 @@ class state extends Component {
       My primary focus and inspiration for my studies is Web Development`,
       imgSrc: 'https://scontent.ftun1-2.fna.fbcdn.net/v/t1.6435-9/53034423_1144733872367490_5120841089854472192_n.jpg?_nc_cat=104&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=JcKR9lWkKlMAX8rHDE4&_nc_ht=scontent.ftun1-2.fna&oh=da08d0b9cb0f6745d603e1831c9a455c&oe=60C52DD3',
       profession: 'Full-Stack web developer',
-      showHide: false
+      showHide: false,
+      date: new Date()
     };
     this.hideComponent = this.hideComponent.bind(this);
-    
   }
-
+ 
   hideComponent() {
     this.setState({ showHide: !this.state.showHide });
   }
+  
+  
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(),2000);
+  }
 
+  componentWillUnmount() {
+    clearTimeout(this.timerID)
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
   render() {
-    const {fullName,bio,imgSrc,profession,showHide} = this.state;
+    const {fullName,bio,imgSrc,profession,showHide,date} = this.state;
     
     return (
       <>
@@ -48,14 +62,17 @@ class state extends Component {
           </Nav>
         </Card.Header>
       </Card>
-      
+     
       <div className='main'>
+     
       <input type="image" src={click} alt='click' onClick={() => this.hideComponent()}></input>
         {showHide && <div className='profile'>
           <img className='img' src={imgSrc} alt='photo1'/>
             <h4>{fullName}</h4>
             <p className='par'>{bio}</p>
             <h5>{profession}</h5>
+            <h6>It is {date.toLocaleTimeString()}</h6>
+            
             
             </div>}
             </div>
